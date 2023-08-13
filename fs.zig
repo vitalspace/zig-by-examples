@@ -5,9 +5,17 @@ pub fn main() !void {
     try createFile("./example.txt", "Hello world");
 }
 
-pub fn createFile(name: []const u8, content: []const u8) !void {
-    const file = try std.fs.cwd().createFile(name, .{ .read = true });
+pub fn createFile(fileName: []const u8, content: []const u8) !void {
+    const file = try std.fs.cwd().createFile(fileName, .{ .read = true });
     defer file.close();
     try file.writeAll(content);
-    print("{s} was created.\n", .{name});
+    print("{s} was created.\n", .{fileName});
+}
+
+pub fn openFile(fileName: []const u8) !void {
+    const content = try std.fs.cwd().readFileAlloc(
+        std.heap.page_allocator, 
+        fileName, 
+        std.math.maxInt(usize));
+    print("{s}", .{content});
 }
