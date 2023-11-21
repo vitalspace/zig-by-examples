@@ -17,3 +17,7 @@ pub fn openFile(fileName: []const u8) !void {
     const content = try std.fs.cwd().readFileAlloc(std.heap.page_allocator, fileName, std.math.maxInt(usize));
     print("{s}", .{content});
 }
+
+pub fn deleFie(fileName: []const u8) !void {
+    try std.fs.cwd().deleteFile(fileName);
+}
